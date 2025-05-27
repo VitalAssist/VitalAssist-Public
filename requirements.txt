@@ -1,0 +1,7 @@
+Flask
+flask-cors
+langdetect
+edge-tts
+pydub
+soundfile
+asyncio

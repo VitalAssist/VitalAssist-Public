@@ -1,0 +1,18 @@
+# render.yaml
+
+# Your backend API service
+- type: web_service
+  name: vitalassist-api
+  env: python
+  branch: main
+  buildCommand: ""
+  startCommand: python vitalassist_web_server.py
+  plan: free
+
+# Your frontend static site
+- type: static_site
+  name: vitalassist-ui
+  branch: main
+  buildCommand: ""
+  publishPath: .
+  plan: free

@@ -1,0 +1,5 @@
+# Ignore binary executables and models
+VitalAssist.exe
+ggml-base.en.bin
+*.dll
+*.exe

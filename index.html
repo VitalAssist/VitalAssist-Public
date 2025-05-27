@@ -1,0 +1,139 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VitalAssist by Commander Tech®</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f3f3f3; }
+    #chat { width: 100%; height: 300px; overflow-y: scroll; background: #fff; padding: 10px; border: 1px solid #ccc; }
+    #controls { margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 4px; }
+    button:hover { background-color: #45a049; }
+    h2 { color: #2a6; }
+  </style>
+</head>
+<body>
+  <h2>🩺 VitalAssist by Commander Tech®</h2>
+  <div id="chat"></div>
+  <div id="controls">
+    <button onclick="startRecording()">🎙️ Start Voice</button>
+  </div>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <script>
+    let mediaRecorder, audioChunks = [];
+
+    async function startRecording() {
+      const chat = document.getElementById("chat");
+      chat.innerHTML += "<div>🎤 Listening...</div>";
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audio', blob, 'recording.webm');
+
+        chat.innerHTML += "<div>🧠 Sending to VitalAssist...</div>";
+
+        try {
+          const res = await fetch("http://127.0.0.1:5000/transcribe", {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await res.json();
+          chat.innerHTML += `<div>🗣️ You: ${data.text}</div>`;
+          chat.innerHTML += `<div>🤖 VitalAssist: ${data.reply}</div>`;
+
+          if (data.mp3) {
+            const audioUrl = "http://127.0.0.1:5000" + data.mp3;
+            const audioTag = `<div style="margin-top: 10px;"><strong>🔊 Voice Reply:</strong><br><audio controls autoplay src="${audioUrl}" style="width: 100%;"></audio></div>`;
+            chat.innerHTML += audioTag;
+          }
+        } catch (err) {
+          chat.innerHTML += `<div style='color:red;'>❌ Error: ${err.message}</div>`;
+        }
+      };
+
+      mediaRecorder.start();
+      setTimeout(() => mediaRecorder.stop(), 5000);
+    }
+  </script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VitalAssist by Commander Tech®</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f3f3f3; }
+    #chat { width: 100%; height: 300px; overflow-y: scroll; background: #fff; padding: 10px; border: 1px solid #ccc; }
+    #controls { margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 4px; }
+    button:hover { background-color: #45a049; }
+    h2 { color: #2a6; }
+  </style>
+</head>
+<body>
+  <h2>🩺 VitalAssist by Commander Tech®</h2>
+  <div id="chat"></div>
+  <div id="controls">
+    <button onclick="startRecording()">🎙️ Start Voice</button>
+  </div>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <script>
+    let mediaRecorder, audioChunks = [];
+
+    async function startRecording() {
+      const chat = document.getElementById("chat");
+      chat.innerHTML += "<div>🎤 Listening...</div>";
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audio', blob, 'recording.webm');
+
+        chat.innerHTML += "<div>🧠 Sending to VitalAssist...</div>";
+
+        try {
+          const res = await fetch("http://127.0.0.1:5000/transcribe", {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await res.json();
+          chat.innerHTML += `<div>🗣️ You: ${data.text}</div>`;
+          chat.innerHTML += `<div>🤖 VitalAssist: ${data.reply}</div>`;
+
+          if (data.mp3) {
+            const audioUrl = "http://127.0.0.1:5000" + data.mp3;
+            const audioTag = `<div style="margin-top: 10px;"><strong>🔊 Voice Reply:</strong><br><audio controls autoplay src="${audioUrl}" style="width: 100%;"></audio></div>`;
+            chat.innerHTML += audioTag;
+          }
+        } catch (err) {
+          chat.innerHTML += `<div style='color:red;'>❌ Error: ${err.message}</div>`;
+        }
+      };
+
+      mediaRecorder.start();
+      setTimeout(() => mediaRecorder.stop(), 5000);
+    }
+  </script>
+</body>
+</html>
+>>>>>>> 7cb058c207c6b6ed161b514703ee245b665d0829
