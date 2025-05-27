@@ -1,15 +1,13 @@
 # render.yaml
 
-# Your backend API service
 - type: web_service
   name: vitalassist-api
   env: python
   branch: main
-  buildCommand: ""
-  startCommand: python vitalassist_web_server.py
+  buildCommand: pip install -r requirements.txt
+  startCommand: gunicorn --bind 0.0.0.0:$PORT vitalassist_web_server:app
   plan: free
 
-# Your frontend static site
 - type: static_site
   name: vitalassist-ui
   branch: main
